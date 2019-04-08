@@ -28,9 +28,9 @@ public class AddressMapperTest {
         Address convertedFrom = addressMapper.convertFrom(addressEntity);
 
         //then
-        assertThat(convertedFrom).hasFieldOrPropertyWithValue("streetName","street0");
-        assertThat(convertedFrom).hasFieldOrPropertyWithValue("houseNumber",0);
-        assertThat(convertedFrom).hasFieldOrPropertyWithValue("flatNumber",0);
+        assertThat(convertedFrom.getStreetName()).isEqualTo("street0");
+        assertThat(convertedFrom.getHouseNumber()).isEqualTo(0);
+        assertThat(convertedFrom.getFlatNumber()).isEqualTo(0);
     }
 
     @Test
@@ -43,8 +43,8 @@ public class AddressMapperTest {
         UserAddressEntity convertedTo = addressMapper.convertTo(address);
 
         //then
-        assertThat(convertedTo).hasFieldOrPropertyWithValue("streetName","street0");
-        assertThat(convertedTo).hasFieldOrPropertyWithValue("houseNumber",0);
-        assertThat(convertedTo).hasFieldOrPropertyWithValue("flatNumber",0);
+        assertThat(convertedTo.getStreetName()).isEqualTo("street0");
+        assertThat(convertedTo.getHouseNumber()).isEqualTo(0);
+        assertThat(convertedTo.getFlatNumber()).isEqualTo(0);
     }
 }

@@ -2,6 +2,7 @@ package org.demo.application.userservice.db.repository;
 
 import com.google.common.collect.Sets;
 
+import org.demo.application.userservice.db.model.UserAddressEntity;
 import org.demo.application.userservice.db.model.UserEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +13,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.demo.application.userservice.util.DataBaseEntityBuilder.buildSingleAddressEntity;
 import static org.demo.application.userservice.util.DataBaseEntityBuilder.buildSingleUserEntity;
 import static org.demo.application.userservice.util.DataBaseEntityBuilder.buildUserEntities;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -32,7 +35,7 @@ public class InMemoryUserRepositoryTest {
     private InMemoryUserRepository repository;
 
     @Test
-    public void whenUserIsPassed_UserShouldBeSaveInDB(){
+    public void whenUserIsPassedToSave_UserShouldBeSaveInDB(){
 
         //given
         UserEntity userEntity = buildSingleUserEntity(buildSingleAddressEntity());
@@ -47,7 +50,7 @@ public class InMemoryUserRepositoryTest {
     }
 
     @Test
-    public void whenSameUserIsPassedTwice_UserShouldBeSaveInDBInDifferentId(){
+    public void whenSameUserIsPassedTwiceToSave_UserShouldBeSaveInDBInDifferentId(){
 
         //given
         UserEntity firstUser = buildSingleUserEntity(buildSingleAddressEntity());
@@ -66,6 +69,24 @@ public class InMemoryUserRepositoryTest {
         verify(storage,times(1)).put(eq(firstId),eq(firstUser));
         verify(storage,times(1)).put(eq(secondId),eq(secondUser));
 
+    }
+
+    @Test
+    public void whenUserIsPassedToUpdate_UserEntityShouldBeUpdated(){
+
+        //given
+        UserEntity userEntity = buildSingleUserEntity(buildSingleAddressEntity());
+        Long userId = repository.addUser(userEntity);
+
+        userEntity.getAddresses().add(new UserAddressEntity("newStreetName",666,666));
+
+        //when
+
+        repository.updateUser(userId,userEntity);
+
+        //then
+
+        verify(storage,times(1)).merge(eq(userId),eq(userEntity),any(BiFunction.class));
     }
 
     @Test

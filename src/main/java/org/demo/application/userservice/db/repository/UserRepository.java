@@ -7,9 +7,11 @@ import java.util.Set;
 
 public interface UserRepository {
 
-    Long addUser(UserEntity userEntity);
+    Long addUser(final UserEntity userEntity);
 
-    Optional<UserEntity> getUser(Long id);
+    void updateUser(final Long id, final UserEntity userEntity);
+
+    Optional<UserEntity> getUser(final Long id);
 
     Set<UserEntity> getUsers();
 }

@@ -12,5 +12,4 @@ public class UserAddressEntity {
     private int houseNumber;
 
     private int flatNumber;
-
 }

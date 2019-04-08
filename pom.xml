@@ -18,7 +18,9 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <guava.version>23.0</guava.version>
+        <guava.version>20.0</guava.version>
+        <swagger.version>2.9.2</swagger.version>
+        <gson.version>2.6.1</gson.version>
     </properties>
 
     <dependencies>
@@ -26,6 +28,20 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <!-- COMMON --> 
@@ -37,6 +53,10 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
 
         <!-- TEST -->
@@ -50,7 +70,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
