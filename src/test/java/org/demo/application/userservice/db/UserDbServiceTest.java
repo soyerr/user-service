@@ -31,7 +31,7 @@ public class UserDbServiceTest {
     private EntityMapper entityMapper;
 
     @InjectMocks
-    private UserDbService userDbService;
+    private DatabaseService userDbService;
 
     @Test
     public void whenUserIsPresentInDB_UserShouldBeReturned(){

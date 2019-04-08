@@ -4,7 +4,7 @@ import org.assertj.core.util.Sets;
 import org.demo.application.userservice.controller.model.RestAddress;
 import org.demo.application.userservice.controller.model.RestUser;
 import org.demo.application.userservice.controller.model.RestUserDetails;
-import org.demo.application.userservice.db.UserDbService;
+import org.demo.application.userservice.db.DatabaseService;
 import org.demo.application.userservice.exception.NotExistUserException;
 import org.demo.application.userservice.model.Address;
 import org.demo.application.userservice.model.User;
@@ -37,7 +37,7 @@ public class UserServiceTest {
     private UserObjectMapper userObjectMapper;
 
     @Mock
-    private UserDbService userDbService;
+    private DatabaseService userDbService;
 
     @InjectMocks
     private UserService userService;
