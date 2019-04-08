@@ -34,6 +34,7 @@ public class SwaggerConfiguration {
                 .paths(Predicates.not(PathSelectors.regex("/error.*")))
                 .build()
                 .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false)
                 .securitySchemes(Lists.newArrayList(basicAuth()))
                 .securityContexts(Lists.newArrayList(securityContext()));
     }

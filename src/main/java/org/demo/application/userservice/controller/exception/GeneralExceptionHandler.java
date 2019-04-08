@@ -6,9 +6,11 @@ import org.demo.application.userservice.controller.model.RestResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
@@ -22,6 +24,25 @@ public class GeneralExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(RestResponse.builder()
                         .exceptionMessages(Sets.newHashSet(ex.getMessage()))
+                        .build());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity requestHandlingNoHandlerFound(final MethodArgumentTypeMismatchException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(RestResponse.builder()
+                        .exceptionMessages(Sets.newHashSet("Invalid value of parameter '"+ex.getName()+"'"))
+                        .build());
+    }
+
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity requestHandlingNoHandlerFound(final HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(RestResponse.builder()
+                        .exceptionMessages(Sets.newHashSet(ex.getMessage()+" .Please use "+ex.getSupportedHttpMethods()+" instead"))
                         .build());
     }
 

@@ -19,6 +19,10 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -28,6 +32,14 @@ public class UserController {
 
     private UserService userService;
 
+    @ApiOperation(value = "Get all users with their addresses")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not found - invalid url"),
+            @ApiResponse(code = 405, message = "Method not allowed"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Set<RestUserDetails>> getUsers() {
         Set<RestUserDetails> userDetails = userService.getUsers();
@@ -37,8 +49,17 @@ public class UserController {
                 .body(userDetails);
     }
 
+    @ApiOperation(value = "Create new user")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Success"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not found - invalid url"),
+            @ApiResponse(code = 405, message = "Method not allowed"),
+            @ApiResponse(code = 406, message = "Not Acceptable - provided model is not valid"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestResponse> createUser(@Valid @RequestBody RestUser user) {
+    public ResponseEntity<RestResponse> createUser(@ApiParam("Data required for create new user") @Valid @RequestBody RestUser user) {
         Long userId = userService.save(user);
 
         return ResponseEntity
@@ -48,8 +69,19 @@ public class UserController {
                         .build());
     }
 
+    @ApiOperation(value = "Add address for existing user")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found - user behind provided id does not exist"),
+            @ApiResponse(code = 405, message = "Method not allowed"),
+            @ApiResponse(code = 406, message = "Not Acceptable - provided model is not valid"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     @PostMapping(path = "/{id}/address", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestResponse> createAddress(@PathVariable("id") Long id, @Valid @RequestBody RestAddress address) {
+    public ResponseEntity<RestResponse> createAddress(@ApiParam("Unique identifier of previously created user") @PathVariable("id") Long id,
+                                                      @ApiParam("Data required for create new address")@Valid @RequestBody RestAddress address) {
 
         userService.updateAddress(id, address);
 
